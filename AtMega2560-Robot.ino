@@ -46,6 +46,10 @@ void setup() {
   pinMode(BackwardR, OUTPUT);
   digitalWrite(LED_A, LOW);
   digitalWrite(LED_B, LOW);
+  analogWrite(29, Contrast);
+  pinMode(ButtonPin, INPUT_PULLUP);
+  lcd.begin(16,2);
+  program();
   
   /* Booting Up LED (Used to determine errors) */
   for(int p = 0; p < 8; p++){
