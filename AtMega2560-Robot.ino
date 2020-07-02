@@ -23,10 +23,6 @@ const int a = 6;
 const int b = 7;
 const int c = 8;
 const int d = 9;
-const int M1 = 10;
-const int M2 = 11;
-const int M3 = 12;
-const int M4 = 13;
 int Light;
 int range = 6;  
 int near = 8;
@@ -38,10 +34,6 @@ int Point = 35;
 void setup() {
   /* Setting up all the pins */
   analogWrite(22, Contrast);
-  pinMode(M1, OUTPUT);
-  pinMode(M2, OUTPUT);
-  pinMode(M3, OUTPUT);
-  pinMode(M4, OUTPUT);
   pinMode(ButtonPin, INPUT_PULLUP);
   pinMode(LED_A, OUTPUT);
   pinMode(LED_B, OUTPUT);
@@ -100,44 +92,6 @@ void setup() {
       lcd.clear();
       lcd.print("Select the Speed of the Motors");
       delay(1000);
-      lcd.clear();
-      for(int a; a < 3; a++){
-        lcd.print("Speed: ");
-        lcd.print(Speed[a]);
-        delay(2500);
-        int ButtonState = digitalRead(ButtonPin);
-        if(ButtonState == LOW){
-          if(Speed[a] == "100"){
-            lcd.clear();
-            lcd.print("Set to " + Speed[a]);
-            full_speed();
-            delay(1000);
-            lcd.clear();
-            break;
-          }
-           if(Speed[a] == "50"){
-         
-            lcd.clear();
-            lcd.print(" Set to " + Speed[a]);
-            half_speed();
-            delay(1000);
-            lcd.clear();
-            break;
-            
-          }
-           if(Speed[a] == "25"){
-       
-            lcd.clear();
-            lcd.print("Set to " + Speed[a]);
-            low_speed();
-            delay(1000);
-            lcd.clear();
-            break;
-            
-          }
-        }
-        lcd.clear();
-      }
       lcd.clear();
       lcd.print("Offroading Mode ?");
       delay(2500);
@@ -477,27 +431,7 @@ void AutoMode(){
  
      
    }
-void full_speed(){
-   analogWrite(M1, map(9, 0, 9, 0, 255));
-   analogWrite(M2, map(9, 0, 9, 0, 255));
-   analogWrite(M3, map(9, 0, 9, 0, 255));
-   analogWrite(M4, map(9, 0, 9, 0, 255));
-}
 
-void half_speed(){
-  analogWrite(M1, map(6, 0, 9, 0, 255));
-  analogWrite(M2, map(6, 0, 9, 0, 255));
-  analogWrite(M3, map(6, 0, 9, 0, 255));
-  analogWrite(M4, map(6, 0, 9, 0, 255));
-  
-}
-void low_speed(){
-  analogWrite(M1,map(3, 0, 9, 0, 255));
-  analogWrite(M2, map(3, 0, 9, 0, 255));
-  analogWrite(M3, map(3, 0, 9, 0, 255));
-  analogWrite(M4, map(3, 0, 9, 0, 255));
-}
- 
 /* Follow The Object */
 void FollowObjectAuto(){
   /* Check's the range of the object */
