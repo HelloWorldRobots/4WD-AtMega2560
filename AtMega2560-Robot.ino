@@ -62,6 +62,7 @@ void setup() {
   digitalWrite(LOWER_LED, LOW);
   delay(350);
   }
+  NIGHT_MODE();
   /* Serial Begins at 9600 Baud Rate */
   Serial.begin(9600);
    String start[] = {"Following Mode", "Obstacle Avoider", "Maze Mode", "Manual Mode"};
@@ -125,7 +126,7 @@ void setup() {
         }
         
       }
-      if( start[i] == "Manual Mode"){
+      if(start[i] == "Manual Mode"){
         /* The main "loop" that runs the program together */
             while(true){
             /* Functions called in this loop, can be later seen below in the code */
@@ -271,11 +272,8 @@ void setup() {
                      }
                         info = 0;
                       }
-                  else if(info == '6'){
-                    /* Check Box on App, to initate Night Mode */  
-                     NightMode();
-                     info = 0;
-                  }
+                 
+          
                   else if(info == '1'){
                     /* Emergency Stop */
                     Light_UP();
@@ -287,6 +285,7 @@ void setup() {
                     /* Autonomus Mode - Goes to a dedicated point */
                      Light_UP();
                      Go_To_Point_A();
+                      
                   }
                    else if(info == '8'){
                     /* Autonomus Mode - Obstacle Avoider */
