@@ -555,7 +555,7 @@ long microsecondsToInches(long microseconds){
 
 /* Object Detection */
 
-void Object_Detection(long &inches  ){
+void Object_Detection(long &inches){
     /* Long Duration */
     long duration;
     /* This is used to generate a clear signal */
