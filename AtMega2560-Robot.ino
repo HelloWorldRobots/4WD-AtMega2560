@@ -23,6 +23,10 @@ const int a = 6;
 const int b = 7;
 const int c = 8;
 const int d = 9;
+const int M1 = 10;
+const int M2 = 11;
+const int M3 = 12;
+const int M4 = 13;
 int Light;
 int range = 6;  
 int near = 8;
@@ -34,6 +38,10 @@ int Point = 35;
 void setup() {
   /* Setting up all the pins */
   analogWrite(22, Contrast);
+  pinMode(M1, OUTPUT);
+  pinMode(M2, OUTPUT);
+  pinMode(M3, OUTPUT);
+  pinMode(M4, OUTPUT);
   pinMode(ButtonPin, INPUT_PULLUP);
   pinMode(LED_A, OUTPUT);
   pinMode(LED_B, OUTPUT);
@@ -62,7 +70,6 @@ void setup() {
   digitalWrite(LOWER_LED, LOW);
   delay(350);
   }
-  NIGHT_MODE();
   /* Serial Begins at 9600 Baud Rate */
   Serial.begin(9600);
    String start[] = {"Following Mode", "Obstacle Avoider", "Maze Mode", "Manual Mode"};
@@ -93,6 +100,44 @@ void setup() {
       lcd.clear();
       lcd.print("Select the Speed of the Motors");
       delay(1000);
+      lcd.clear();
+      for(int a; a < 3; a++){
+        lcd.print("Speed: ");
+        lcd.print(Speed[a]);
+        delay(2500);
+        int ButtonState = digitalRead(ButtonPin);
+        if(ButtonState == LOW){
+          if(Speed[a] == "100"){
+            lcd.clear();
+            lcd.print("Set to " + Speed[a]);
+            full_speed();
+            delay(1000);
+            lcd.clear();
+            break;
+          }
+           if(Speed[a] == "50"){
+         
+            lcd.clear();
+            lcd.print(" Set to " + Speed[a]);
+            half_speed();
+            delay(1000);
+            lcd.clear();
+            break;
+            
+          }
+           if(Speed[a] == "25"){
+       
+            lcd.clear();
+            lcd.print("Set to " + Speed[a]);
+            low_speed();
+            delay(1000);
+            lcd.clear();
+            break;
+            
+          }
+        }
+        lcd.clear();
+      }
       lcd.clear();
       lcd.print("Offroading Mode ?");
       delay(2500);
@@ -126,7 +171,7 @@ void setup() {
         }
         
       }
-      if(start[i] == "Manual Mode"){
+      if( start[i] == "Manual Mode"){
         /* The main "loop" that runs the program together */
             while(true){
             /* Functions called in this loop, can be later seen below in the code */
@@ -272,8 +317,11 @@ void setup() {
                      }
                         info = 0;
                       }
-                 
-          
+                  else if(info == '6'){
+                    /* Check Box on App, to initate Night Mode */  
+                     NightMode();
+                     info = 0;
+                  }
                   else if(info == '1'){
                     /* Emergency Stop */
                     Light_UP();
@@ -285,7 +333,6 @@ void setup() {
                     /* Autonomus Mode - Goes to a dedicated point */
                      Light_UP();
                      Go_To_Point_A();
-                      
                   }
                    else if(info == '8'){
                     /* Autonomus Mode - Obstacle Avoider */
@@ -430,7 +477,28 @@ void AutoMode(){
  
      
    }
+void full_speed(){
+   analogWrite(M1, 200);
+   analogWrite(M2, 200);
+   analogWrite(M3, 200);
+   analogWrite(M4, 200);
+}
 
+void half_speed(){
+  analogWrite(M1, 100);
+  analogWrite(M2, 100);
+  analogWrite(M3, 100);
+  analogWrite(M4, 100);
+  
+}
+void low_speed(){
+  analogWrite(M1, 50);
+  analogWrite(M2, 50);
+  analogWrite(M3, 50);
+  analogWrite(M4, 50);
+}
+
+ 
 /* Follow The Object */
 void FollowObjectAuto(){
   /* Check's the range of the object */
@@ -554,7 +622,7 @@ long microsecondsToInches(long microseconds){
 
 /* Object Detection */
 
-void Object_Detection(long &inches){
+void Object_Detection(long &inches  ){
     /* Long Duration */
     long duration;
     /* This is used to generate a clear signal */
