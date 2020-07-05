@@ -1,7 +1,5 @@
 #include <LiquidCrystal.h> 
-#include <ShiftRegister74HC595.h>
 #include <RBD_LightSensor.h>
-ShiftRegister74HC595<1> sr(52, 53, 54);
 LiquidCrystal lcd(23, 24, 25, 26, 27, 28);
 RBD::LightSensor light_sensor(A2);
 bool Offroad = false;
@@ -9,6 +7,8 @@ int info;
 const int ButtonPin = 29;
 int ButtonState; 
 int Contrast=0;
+const int LED_C = 54;
+const int LED_D = 53;
 const int LED_A = 32;
 const int LED_B = 33;
 const int LOWER_LED = 34;
@@ -37,6 +37,8 @@ int Point = 35;
 /* This is the setup for the robot, which also contains the "center-point" for the code */
 void setup() {
   /* Setting up all the pins */
+  pinMode(LED_C, OUTPUT);
+  pinMode(LED_D, OUTPUT);
   analogWrite(22, Contrast);
   pinMode(M1, OUTPUT);
   pinMode(M2, OUTPUT);
@@ -59,6 +61,8 @@ void setup() {
   pinMode(BackwardR, OUTPUT);
   digitalWrite(LED_A, LOW);
   digitalWrite(LED_B, LOW);
+  digitalWrite(LED_C, LOW);
+  digitalWrite(LED_D, LOW);
   analogWrite(29, Contrast);
   pinMode(ButtonPin, INPUT_PULLUP);
   lcd.begin(16,2);
@@ -434,13 +438,12 @@ void LightsOn(){
   int light = light_sensor.getPercentValue();
   if(light < 45){
     for(int u; u < 3; u++){
-    sr.setAllHigh(); // set all pins HIGH
+     digitalWrite(LED_C, HIGH);
      delay(500);
   
-    sr.setAllLow(); // set all pins LOW
+     digitalWrite(LED_D, HIGH);
      delay(500); 
     }
-   sr.setAllHigh();
   }
 }
 
